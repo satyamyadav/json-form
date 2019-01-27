@@ -7,48 +7,35 @@ export default {
     className: "button",
     text: "Login",
     disabled: false,
-    loader: `Loading`,
-    onclick: (ev) => {
-      ev.preventDefault();
-      console.log('button.clicked', ev)
-    }
+    loader: `Loading`
   },
   validations: {
-    username: (ev) => {
-      return false
-    }
+    phone: (value) => {
+      const v = value.trim();
+      const reg = new RegExp(/^(1\s?)?((\([0-9]{3}\))|[0-9]{3})[\s\-]?[\0-9]{3}[\s\-]?[0-9]{4}$/g)
+      return reg.test(v)
+    },
   },
   fields: [
     {
-      id: "usename",
-      name: "username",
-      validation: 'username',
-      type: "text",
-      placeholder: "Username",
-      label: "Email",
+      name: "phone",
+      validation: 'phone',
+      type: "number",
+      placeholder: "phone",
+      label: "Phone",
       autocomplete: "off",
       className: "input-large",
       required: "required",
-      autofocus: "",
-      icon: {
-        left: "person",
-      },
-      wrapper: "icon-input",
-      requiredMsg: 'Username is required.'
+      autofocus: ""
     },
     {
       name: "password",
-      id: "password",
       type: "password",
       placeholder: "Password",
       label: "Password",
       className: "input-large",
       autocomplete: "off",
-      required: "required",
-      icon: {
-        left: "vpn_key",
-      },
-      wrapper: "icon-input"
+      required: "required"
     }
   ]
 };
