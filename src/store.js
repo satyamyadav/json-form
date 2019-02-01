@@ -20,6 +20,33 @@ export default {
     {
       name: "phone",
       validation: 'phone',
+      type: "datalist",
+      placeholder: "phone",
+      label: "Phone",
+      autocomplete: "off",
+      className: "input-large",
+      required: "required",
+      autofocus: "",
+      text: 'foo',
+      options: [
+        'foo'
+      ]
+    },
+    {
+      name: "phone",
+      validation: 'phone',
+      type: "button",
+      placeholder: "phone",
+      label: "Phone",
+      autocomplete: "off",
+      className: "input-large",
+      required: "required",
+      autofocus: "",
+      text: 'foo'
+    },
+    {
+      name: "phone",
+      validation: 'phone',
       type: "number",
       placeholder: "phone",
       label: "Phone",

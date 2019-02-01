@@ -1,5 +1,6 @@
 
 import dom from './dom';
+import createInput from './inputs';
 
 const handler = (ev) => {
   const target = ev.target;
@@ -10,12 +11,12 @@ const handler = (ev) => {
   target.parentNode.isValid = isValid;
   return isValid;
 }
-const createInput = (field = {}) => {
-  const el = dom.input(field);
-  // el.addEventListener('blur', handler);
-  el.addEventListener('input', handler);
-  return el;
-}
+// const createInput = (field = {}) => {
+//   const el = dom.input(field);
+//   // el.addEventListener('blur', handler);
+//   el.addEventListener('input', handler);
+//   return el;
+// }
 
 const Fields = (inputfields = [], validations = {}) => {
   return inputfields.map(field => {
