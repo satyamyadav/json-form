@@ -1,24 +1,15 @@
 
 import dom from './dom';
 
-{/* <input list="ice-cream-flavors" id="ice-cream-choice" name="ice-cream-choice" />
-
-<datalist id="ice-cream-flavors">
-    <option value="Chocolate">
-    <option value="Coconut">
-    <option value="Mint">
-    <option value="Strawberry">
-    <option value="Vanilla">
-</datalist> */}
-
-// const createInput = (field = {}) => {
-// const el = dom.input(field);
-// el.addEventListener('blur', handler);
-// el.addEventListener('input', handler);
-// return el;
-// const { type='input', text='' } = field;
-
-
+const handler = (ev) => {
+  const target = ev.target;
+  const { validation, value, classes } = target;
+  const isValid = validation(value);
+  !isValid && target.classList.add(classes.error);
+  isValid && target.classList.remove(classes.error);
+  target.parentNode.isValid = isValid;
+  return isValid;
+}
 
 
 const button = (field) => {
@@ -28,82 +19,45 @@ const button = (field) => {
 
 
 const datalist = (field) => {
-  const { type, options=[], id='data-list' } = field;
-  //   <label for="ice-cream-choice">Choose a flavor:</label>
-  //     <input list="ice-cream-flavors" id="ice-cream-choice" name="ice-cream-choice" />
+  const { type, options = [], id = 'data-list' } = field;
 
-  //     <datalist id="ice-cream-flavors">
-  //       <option value="Chocolate">
-  //         <option value="Coconut">
-  //           <option value="Mint">
-  //             <option value="Strawberry">
-  //               <option value="Vanilla">
-  // </datalist>
-
-  return  dom.div({}, [
-    dom.input({ list: id }),
+  return dom.div({}, [
+    dom.input({ list: id, ...field, type: 'text' }),
     dom.datalist({ id }, options.map(opt => dom.option({ value: opt }))),
   ])
 }
 
 
 const fieldset = (field) => {
-  const { type } = field;
-  return dom[type](field);
+  const { type, options=[], name, label='Select one' } = field;
+  return dom.fieldset({name},[
+    dom.legend({}, label),
+    ...options.flatMap(opt => {
+      const id = Math.round(Math.random() * Date.now()).toString(20).substr(0, 4);
+      return [
+        dom.input({id, type: 'radio', name: opt}),
+        dom.label({for:id}, opt),
+        dom.br({})
+      ]
+    })
+  ])
 }
-
-
-const form = (field) => {
-  const { type } = field;
-  return dom[type](field);
-}
-
 
 const input = (field) => {
-  const { type } = field;
-  return dom.input(field);
-}
-
-
-const keygen = (field) => {
-  const { type } = field;
-  return dom[type](field);
-}
-
-
-const label = (field) => {
-  const { type } = field;
-  return dom[type](field);
-}
-
-
-const legend = (field) => {
-  const { type } = field;
-  return dom[type](field);
-}
-
-
-const meter = (field) => {
-  const { type } = field;
-  return dom[type](field);
+  const el = dom.input(field);
+  el.addEventListener('input', handler);
+  return el;
 }
 
 
 const optgroup = (field) => {
-  const { type } = field;
-  return dom[type](field);
-}
-
-
-const option = (field) => {
-  const { type } = field;
-  return dom[type](field);
-}
-
-
-const output = (field) => {
-  const { type } = field;
-  return dom[type](field);
+  const { type, groups } = field;
+  const createOptions = opts => dom.option({}, opts);
+  
+  const createGroup = (({options, label}) => {
+    return dom.optgroup({label}, options.map(createOptions))
+  });
+  return dom.select({}, groups.map(createGroup))
 }
 
 
@@ -114,21 +68,25 @@ const progress = (field) => {
 
 
 const select = (field) => {
-  const { type } = field;
-  return dom[type](field);
+  const { type, options, ...rest } = field;
+  const createOption = val => dom.option({value: val}, val);
+  return dom.select(rest, options.map(createOption));
 }
 
 
 const textarea = (field) => {
-  const { type } = field;
-  return dom[type](field);
+  const { type, ...rest } = field;
+  return dom[type](rest);
 }
 
 
 
-const inputMap = { button, datalist, fieldset, form, input, keygen, label, legend, meter, optgroup, option, output, progress, select, textarea }
+const inputMap = { button, datalist, fieldset, input, optgroup, progress, select, textarea }
 
-const createInput = (opts) => {
+const createInput = ({ field, validation, config: { cssClass = {} } }) => {
+  const { input = {} } = cssClass;
+  const { normal = '', error = '', success= '' } = input;
+  const opts = {classes: {normal, error, success}, className: normal, ...field, validation };
   const { type = 'input' } = opts;
 
   if (!inputMap[type]) {

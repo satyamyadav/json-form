@@ -1,0 +1,20 @@
+@import "./css/normalize.css";
+@import "./css/skeleton.css";
+.error {
+  border-color: red !important;
+}
+
+input:disabled,
+button:disabled {
+  opacity: 0.5 !important;
+  /* Fade effect */
+  cursor: not-allowed;
+  /* Cursor change to disabled state*/
+}
+
+fieldset {
+  label {
+    display: inline-block;
+    margin-left: .5rem;
+  }
+}

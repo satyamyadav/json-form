@@ -2,27 +2,12 @@
 import dom from './dom';
 import createInput from './inputs';
 
-const handler = (ev) => {
-  const target = ev.target;
-  const { validation, value } = target;
-  const isValid = validation(value);
-  !isValid && target.classList.add('error');
-  isValid && target.classList.remove('error');
-  target.parentNode.isValid = isValid;
-  return isValid;
-}
-// const createInput = (field = {}) => {
-//   const el = dom.input(field);
-//   // el.addEventListener('blur', handler);
-//   el.addEventListener('input', handler);
-//   return el;
-// }
-
-const Fields = (inputfields = [], validations = {}) => {
-  return inputfields.map(field => {
+const Fields = ({fields = [], validations = {}, config={}}) => {
+  const {cssClass={}} = config;
+  return fields.map(field => {
     const validation = validations[field.validation] || (() => true);
-    const w = field.wrapper || '';
-    const inputEl = createInput({ ...field, validation });
+    const w = cssClass.wrapper || field.wrapper || '';
+    const inputEl = createInput({ field, validation, config });
     return dom.div(
       { id: field.name, className: w, isValid: true },
       [inputEl]

@@ -1,0 +1,101 @@
+{
+  "config": {
+    "action": "http://google.com",
+    "method": "get",
+    "actionType": "ajax",
+    "cssClass": {
+      "input": {
+        "error": "error",
+        "success": "input",
+        "normal": "input"
+      },
+      "label": "label",
+      "wrapper": "wrapper"
+    }
+  },
+  "actionButton": {
+    "className": "button",
+    "text": "Login",
+    "disabled": false,
+    "loader": "Loading"
+  },
+  "fields": [
+    {
+      "name": "icecream",
+      "type": "datalist",
+      "placeholder": "choose your ice cream",
+      "options": [
+        "Chocolate",
+        "Coconut",
+        "Mint",
+        "Strawberry",
+        "Vanilla"
+      ]
+    },
+    {
+      "name": "monster",
+      "type": "fieldset",
+      "label": "Choose your favorite monster",
+      "options": [
+        "Kraken",
+        "Sasquatch",
+        "Mothman"
+      ]
+    },
+    {
+      "name": "phone",
+      "validation": "phone",
+      "type": "text",
+      "placeholder": "phone",
+      "label": "Phone",
+      "autocomplete": "off",
+      "required": "required",
+      "autofocus": ""
+    },
+    {
+      "name": "optgroup",
+      "type": "optgroup",
+      "label": "Choose your favorite monster",
+      "groups": [
+        {
+          "label": "foo",
+          "options": [
+            "Kraken",
+            "Sasquatch",
+            "Mothman"
+          ]
+        },
+        {
+          "label": "bar",
+          "options": [
+            "Kraken",
+            "Sasquatch",
+            "Mothman"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "progress",
+      "type": "progress",
+      "value": 70,
+      "max": 100
+    },
+    {
+      "name": "pets",
+      "type": "select",
+      "options": [
+        "select a pet",
+        "Hamster",
+        "Parrot",
+        "Spider",
+        "Dog",
+        "Cat"
+      ]
+    },
+    {
+      "name": "freetext",
+      "type": "textarea"
+    }
+  ]
+}

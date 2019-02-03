@@ -29,6 +29,11 @@ const defaultElements = [
   'button',
   'option',
   'datalist',
+  'legend',
+  'fieldset',
+  'optgroup',
+  'progress',
+  'textarea'
 ];
 
 const DomApi = (list = []) => {

@@ -4,10 +4,10 @@ import createFields from './fields';
 
 const isFieldsValid = list => list.every(l => l.isValid);
 
-const Form = ({ attributes = {}, actionButton = {}, fields = [], validations }) => {
+const Form = ({ config = {}, actionButton = {}, fields = [], validations }) => {
   const submit = ActionButton(actionButton);
-  const inputFields = createFields(fields, validations);
-  const form = dom.form(attributes, [...inputFields, submit]);
+  const inputFields = createFields({fields, validations, config});
+  const form = dom.form(config, [...inputFields, submit]);
   form.addEventListener('input', (ev) => {
     console.log('is form valid', ev.currentTarget.checkValidity())
     submit.disabled = !ev.currentTarget.checkValidity();
