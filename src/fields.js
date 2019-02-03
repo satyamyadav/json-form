@@ -10,7 +10,7 @@ const Fields = ({fields = [], validations = {}, config={}}) => {
     const inputEl = createInput({ field, validation, config });
     return dom.div(
       { id: field.name, className: w, isValid: true },
-      [inputEl]
+      inputEl
     );
   });
 }

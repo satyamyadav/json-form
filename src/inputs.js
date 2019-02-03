@@ -11,72 +11,84 @@ const handler = (ev) => {
   return isValid;
 }
 
+const createLabel = ({ label = false, cssClass = {} }) => {
+  const { label: className = '' } = cssClass;
+  if (label && label.length) {
+    return dom.label({ className }, label);
+  }
+  return '';
+}
+
 
 const button = (field) => {
   const { type, text } = field;
-  return dom[type](field, text);
+  return [dom[type](field, text)];
 }
 
 
 const datalist = (field) => {
   const { type, options = [], id = 'data-list' } = field;
 
-  return dom.div({}, [
+  return [
+    createLabel(field),
     dom.input({ list: id, ...field, type: 'text' }),
     dom.datalist({ id }, options.map(opt => dom.option({ value: opt }))),
-  ])
+  ]
 }
 
 
 const fieldset = (field) => {
-  const { type, options=[], name, label='Select one' } = field;
-  return dom.fieldset({name},[
+  const { type, options = [], name, label = 'Select one' } = field;
+  return [dom.fieldset({ name }, [
     dom.legend({}, label),
     ...options.flatMap(opt => {
       const id = Math.round(Math.random() * Date.now()).toString(20).substr(0, 4);
       return [
-        dom.input({id, type: 'radio', name: opt}),
-        dom.label({for:id}, opt),
+        dom.input({ id, type: 'radio', name: opt }),
+        dom.label({ for: id }, opt),
         dom.br({})
       ]
     })
-  ])
+  ])]
 }
 
 const input = (field) => {
   const el = dom.input(field);
   el.addEventListener('input', handler);
-  return el;
+  return [
+    createLabel(field),
+    el
+  ];
 }
 
 
 const optgroup = (field) => {
   const { type, groups } = field;
   const createOptions = opts => dom.option({}, opts);
-  
-  const createGroup = (({options, label}) => {
-    return dom.optgroup({label}, options.map(createOptions))
+
+  const createGroup = (({ options, label }) => {
+    return dom.optgroup({ label }, options.map(createOptions))
   });
-  return dom.select({}, groups.map(createGroup))
+  return [createLabel(field), dom.select({}, groups.map(createGroup))];
 }
 
 
 const progress = (field) => {
   const { type } = field;
-  return dom[type](field);
+  return [createLabel(field), dom[type](field)];
 }
 
 
 const select = (field) => {
   const { type, options, ...rest } = field;
-  const createOption = val => dom.option({value: val}, val);
-  return dom.select(rest, options.map(createOption));
+  const createOption = val => dom.option({ value: val }, val);
+  return [createLabel(field), dom.select(rest, options.map(createOption))];
 }
 
 
 const textarea = (field) => {
   const { type, ...rest } = field;
-  return dom[type](rest);
+  return [createLabel(field), dom[type](rest)];
 }
 
 
@@ -85,8 +97,8 @@ const inputMap = { button, datalist, fieldset, input, optgroup, progress, select
 
 const createInput = ({ field, validation, config: { cssClass = {} } }) => {
   const { input = {} } = cssClass;
-  const { normal = '', error = '', success= '' } = input;
-  const opts = {classes: {normal, error, success}, className: normal, ...field, validation };
+  const { normal = '', error = '', success = '' } = input;
+  const opts = { classes: { normal, error, success }, className: normal, ...field, validation, cssClass };
   const { type = 'input' } = opts;
 
   if (!inputMap[type]) {

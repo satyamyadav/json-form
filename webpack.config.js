@@ -1,38 +1,22 @@
 const path = require('path');
-const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const Visualizer = require('webpack-visualizer-plugin');
 
 module.exports = {
-  entry: './example/index.js',
+  context: path.join(__dirname, './src'),
+  entry: './index.js',
   output: {
-    filename: 'main.js',
-    path: path.resolve(__dirname, 'dist')
+    filename: 'json-form.js',
+    path: path.resolve(__dirname, './dist')
   },
   devServer: {
     contentBase: './dist',
     hot: true
   },
-  module: {
-    rules: [
-      {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
-      },
-      {
-        test: /\.scss$/,
-        use: [
-          "style-loader", // creates style nodes from JS strings
-          "css-loader", // translates CSS into CommonJS
-          "sass-loader" // compiles Sass to CSS, using Node Sass by default
-        ]
-      }
-    ]
-  },
+
   plugins: [
-    new HtmlWebpackPlugin({
-      template: './index.html',
-    }),
-    new webpack.HotModuleReplacementPlugin()
+
+    new Visualizer(),
+
   ],
-  mode: 'development'
+  mode: 'production'
 };

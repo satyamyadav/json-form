@@ -23,6 +23,7 @@
     {
       "name": "icecream",
       "type": "datalist",
+      "label": "Datalist",
       "placeholder": "choose your ice cream",
       "options": [
         "Chocolate",
@@ -78,12 +79,14 @@
     {
       "name": "progress",
       "type": "progress",
+      "label": "pregress",
       "value": 70,
       "max": 100
     },
     {
       "name": "pets",
       "type": "select",
+      "label": "select",
       "options": [
         "select a pet",
         "Hamster",
@@ -95,7 +98,8 @@
     },
     {
       "name": "freetext",
-      "type": "textarea"
+      "type": "textarea",
+      "label": "free text"
     }
   ]
 }
